@@ -39,11 +39,10 @@
                 width: 400px;height: 50px;"/><br>
             
                 <input type="submit" name="submit" value="Creat New Comment" style="font-size: 16px;margin-top: 10px;
-                border-color: lightskyblue;width: 170px;background-color: lightskyblue;"/>
+                border-color: lightskyblue;width: 180px;background-color: lightskyblue;"/>
                 
           </form>
-
-                    
+                   
      <?php
      $username="root";
      $password="";
@@ -71,16 +70,14 @@
      ?>
             
      <?php
-
-
       mysql_connect(localhost,$username,$password);
       @mysql_select_db($database) or die( "Unable to select database");
-      $query="SELECT * FROM Comment WHERE board_id=$idno";
-      $result=mysql_query($query);
-
-      $num=mysql_numrows($result);
-
-      mysql_close();
+//      $query="SELECT * FROM Comment WHERE board_id=$idno";
+//      $result=mysql_query($query);
+//
+//      $num=mysql_numrows($result);
+//
+//      mysql_close();
       ?>
       <table class="myTable">
       <tr>
@@ -92,34 +89,35 @@
       </tr>
 
       <?php
-      $i=0;
-      while ($i < $num) {
+      $query="SELECT * FROM Comment WHERE board_id=$idno";
+      $result=mysql_query($query);
 
-      $f1=mysql_result($result,$i,"id");
-      $f2=mysql_result($result,$i,"board_id");
-      $f3=mysql_result($result,$i,"contents");
-      $f4=mysql_result($result,$i,"created_at");
+      $num=mysql_numrows($result);
 
+      //mysql_close();
+      $j=0;
+      while ($j < $num) {
+
+      $f1=mysql_result($result,$j,"id");
+      $f2=mysql_result($result,$j,"board_id");
+      $f3=mysql_result($result,$j,"contents");
+      $f4=mysql_result($result,$j,"created_at");
+      
       ?>
-
       <tr>
-      <td><font face="Arial, Helvetica, sans-serif"><?php echo $f1; ?></font></td>
-      <td><font face="Arial, Helvetica, sans-serif"><?php echo $f2; ?></font></td>
-      <td><font face="Arial, Helvetica, sans-serif"><?php echo $f3; ?></font></td>
-      <td><font face="Arial, Helvetica, sans-serif"><?php echo $f4; ?></font></td>
-
+      <td><?php echo $f1; ?></td>
+      <td><?php echo $f2; ?></td>
+      <td><?php echo $f3; ?></td>
+      <td><?php echo $f4; ?></td>
       </tr>
-      </table>
       <?php
-      $i++;
+      $j++;
       }
           if($num==0){
             echo "<font color='red'>No Comments at this Bulltin Board.</font>";
           }
         
       ?>
-           
-              
-   
+        </table>   
 </body>
 </html>

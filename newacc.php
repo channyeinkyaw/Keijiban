@@ -1,5 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+	
+    session_start();
+    $control= False;
+	if (isset($_COOKIE['errordata'])){
+        $control= True;
+        setcookie('errordata',$_COOKIE['errordata'],time()-3600);
+	}else{
+		$control= False;
+        setcookie('errordata',$_COOKIE['errordata'],time()-3600);
+	}
+    //$control= False;
+?>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,7 +26,7 @@
 	border:1px solid lightskyblue;
 	padding-left: 30px;
 	padding-bottom: 20px;
-	width: 360px;
+	width: 440px;
     font-family:sans-serif;
 }
 #login p{
@@ -32,26 +44,34 @@ input{
     border-style:inset;width: 200px;height: 25px;
     margin-left: 10px;
 }
-.myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 350px;margin-top: 10px;}
+.myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 430px;margin-top: 10px;}
 .myTable th { background-color:lightskyblue;color:black;}
 
 </style>  
 
 <body>
 <div id="login">
-  <h2 style="color: lightskyblue">Create Account For Bulletin Board</h2>
+  <h2 style="color: blue">Create Account For Bulletin Board</h2>
+  <?php
+    if($control == True){
+      echo 'enter data correctly';
+    }
+  ?>
 <form action="logincheck.php" method="post">
   <table class="myTable">
     <tr><td>Username</td>
-        <td><input type="text" name="uname" /></td>
+        <td><input type="text" name="username" /></td>
     </tr>
     <tr><td>Password</td>
-        <td><input type="password" name="passwd" /></td>
+        <td><input type="password" name="password" /></td>
+    </tr>
+    <tr><td>Confirm Password</td>
+        <td><input type="password" name="conf_password" /></td>
     </tr>
   </table>
 	
-   <input type="submit" name="submit" value="Login" 
-          style="background-color: lightskyblue;margin-top: 20px;margin-left: 65px;height: 40px;font-size: 18px;"</>
+   <input type="submit" name="submit" value="Create Account" 
+          style="background-color: lightskyblue;margin-top: 20px;margin-left: 85px;height: 40px;font-size: 18px;"</>
      <br><br>
      <labe><a href="">Create New Account</a></labe>
 </form>

@@ -71,7 +71,7 @@
 
                 }
               }
-                  $query="SELECT * FROM Board";
+                  $query="SELECT * FROM Board ORDER BY id DESC";
                   $result=mysql_query($query);
                   $num2=mysql_numrows($result);
 
@@ -105,7 +105,6 @@
           }
               ?>
           </table>
-              
     
 </body>
 </html>
