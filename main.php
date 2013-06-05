@@ -1,9 +1,13 @@
 <?php
+    require_once 'databaseconnection.php';
+    $db = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME) or die('ERROR!(connect):MySQLサーバーへの接続に失敗しました。');
+    mysqli_query($db,"SET NAMES latin1");
+    
 	session_start();
 	if (isset($_SESSION['user'])){
-        
-		echo "<font color='blue'>Welcome ".$_SESSION['user']."</font>".
-                    "[ <a href=\"logout.php\">Logout</a> ]";
+        //$guser=$_SESSION['user'];
+		echo "<font color='blue'>Welcome ".strtoupper($_SESSION['user'])."</font>".
+                    " [ <a href=\"logout.php\">Logout</a> ]";
 	}else{
 		echo "You are not authorized into this page!";
 	}
@@ -25,13 +29,8 @@
       
   
   <br><label style="color: blue;font-size: 18px;">Bulletin Board</label><br><br>
-          <?php $user="root";
-                      $password="";
-                      $database="PHP";
-                      mysql_connect(localhost,$user,$password);
-                      @mysql_select_db($database) or die( "Unable to select database");?>
-
-          <form method="get" action="main.php">
+          
+          <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
               <table class="myTable">  
                   <tr><td>
                       Bulltin Board Title <input type="text" id="title" name="title" style="
@@ -64,45 +63,41 @@
                     echo 'Enter Bulletin Title.';
                   }
                 else{
-                  $edit = "INSERT INTO Board VALUES
-                      ('','$title','$created')";
-
-                  mysql_query($edit);
-
+                  $edit = "INSERT INTO Board VALUES ('','$title','$created')";
+                  mysqli_query($db,$edit);
                 }
               }
                   $query="SELECT * FROM Board ORDER BY id DESC";
-                  $result=mysql_query($query);
-                  $num2=mysql_numrows($result);
+                  $result=mysqli_query($db,$query);
+                  $num2=mysqli_num_rows($result);
 
                   if($num2!=0){
-                  $i=0;
-                  while ($i < $num2) {
-
-                  $f1=mysql_result($result,$i,"id");
-                  $f2=mysql_result($result,$i,"title");
-                  $f3=mysql_result($result,$i,"created_at");
-
-                  $qcomment="SELECT id FROM Comment WHERE board_id=$f1";
-                  $cresult=mysql_query($qcomment);
-                  $num3=mysql_numrows($cresult);
-
+                    while($data = mysqli_fetch_array($result)){
+                    $f1=$data['id'];
+                    $f2=$data['title'];
+                    $f3=$data['created_at'];
+                    
+                    $_SESSION['board_id']=$f1;
+                    $_SESSION['board_title']=$f2;
+                    $qcomment="SELECT id FROM Comment WHERE board_id=$f1";
+                    $cresult=mysqli_query($db,$qcomment);
+                    $num3=mysqli_num_rows($cresult);
+                    mysqli_close($db);
               ?>  
-                  <tr>
-                  <td><?php echo $f1; ?></td>
-                  <td><?php echo $f2; ?></td>
-                  <td><?php echo $f3; ?></td>
-                  <td>
-                      (<?php echo $num3?>nos) 
-                      <a href="comment.php?id=<?php echo $f1?> & title= <?php echo $f2?>">See Comment</a> </td>            
-                  </tr>
+                    <tr>
+                    <td><?php echo $f1; ?></td>
+                    <td><?php echo $f2; ?></td>
+                    <td><?php echo $f3; ?></td>
+                    <td>
+                        (<?php echo $num3?>nos) 
+                        <a href="comment.php">See Comment</a> </td>            
+                    </tr>
               <?php
-                  $i++;
-                  }
+                    }
                   }
                   else{
-            echo "<font color='red'>No Bulletin Board</font>";
-          }
+                    echo "<font color='red'>No Bulletin Board</font>";
+              }
               ?>
           </table>
     
