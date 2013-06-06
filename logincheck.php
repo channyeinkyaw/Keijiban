@@ -1,8 +1,8 @@
 <?php
     require_once 'databaseconnection.php';
     
-    $db = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME) or die('ERROR!(connect):MySQLサーバーへの接続に失敗しました。');
-		mysqli_query($db,"SET NAMES latin1");
+//    $db = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME) or die('ERROR!(connect):MySQLサーバーへの接続に失敗しました。');
+//		mysqli_query($db,"SET NAMES latin1");
     
     if($_POST['submit']=='Create Account'){
       $new_user=$_POST['username'];

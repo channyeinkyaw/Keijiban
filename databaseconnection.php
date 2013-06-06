@@ -3,4 +3,7 @@
   define('DB_USER', 'root');
   define('DB_PASSWORD', '');
   define('DB_NAME', 'PHP');
+  
+  $db = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME) or die('ERROR!(connect):MySQLサーバーへの接続に失敗しました。');
+  mysqli_query($db,"SET NAMES latin1");
 ?>
