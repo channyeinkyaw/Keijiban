@@ -1,11 +1,10 @@
 <?php
-	session_start();
-	if (isset($_SESSION['user'])){
-        setcookie('errordata',$_COOKIE['errordata'],time()-3600);
-		session_destroy();
-		header("location: login.html");
+
+	if(isset($_COOKIE['user_name'])){
+        require_once 'clearcookie.php';
 	}
-	else{
-		header("location: login.html");
-	}
+	$url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
+	header('Location: '.$url);
+	exit;
+
 ?>

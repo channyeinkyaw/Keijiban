@@ -1,7 +1,6 @@
 <?php
-	
-    session_start();
-    $control= False;
+    $control = False;
+    $control2 = False;
 	if (isset($_COOKIE['errordata'])){
         $control= True;
         setcookie('errordata',$_COOKIE['errordata'],time()-3600);
@@ -9,7 +8,14 @@
 		$control= False;
         setcookie('errordata',$_COOKIE['errordata'],time()-3600);
 	}
-    //$control= False;
+    
+    if (isset($_COOKIE['errordata2'])){
+        $control2= True;
+        setcookie('errordata2',$_COOKIE['errordata2'],time()-3600);
+	}else{
+		$control2= False;
+        setcookie('errordata2',$_COOKIE['errordata2'],time()-3600);
+	}
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,6 +26,14 @@
 </head>
 
 <style type="text/css">
+.main{
+	margin-right:auto;
+    margin-left:auto;
+    width:550px;
+    background-color: white;
+    margin:0 auto;
+}  
+
 #login{
 	margin: 5px 40px;
 	background:white;
@@ -50,31 +64,32 @@ input{
 </style>  
 
 <body>
+<div class="main">
 <div id="login">
-  <h2 style="color: blue">Create Account For Bulletin Board</h2>
+  <h2 style="color: blue;margin-left: 7%;">掲示板システム　新規会員登録</h2>
   <?php
-    if($control == True){
-      echo 'enter data correctly';
-    }
+    if($control == True){ echo '入力内容が正しくありません。';}
+    if($control2 == True){ echo 'このユーザー名は使用されています。<br>他のユーザー名を指定してください。';}
   ?>
 <form action="logincheck.php" method="post">
   <table class="myTable">
-    <tr><td>Username</td>
+    <tr><td>ユーザー名</td>
         <td><input type="text" name="username" /></td>
     </tr>
-    <tr><td>Password</td>
+    <tr><td>パスワード</td>
         <td><input type="password" name="password" /></td>
     </tr>
-    <tr><td>Confirm Password</td>
+    <tr><td>パスワード(確認)</td>
         <td><input type="password" name="conf_password" /></td>
     </tr>
   </table>
 	
-   <input type="submit" name="submit" value="Create Account" 
-          style="background-color: lightskyblue;margin-top: 20px;margin-left: 85px;height: 40px;font-size: 18px;"</>
+   <input type="submit" name="submit" value="送信" 
+          style="background-color: lightskyblue;margin-top: 20px;margin-left: 38.5%;height: 40px;font-size: 18px;"</>
      <br><br>
-     <labe><a href="">Create New Account</a></labe>
+     <labe><a style="color: red"href="login.php">LOG IN</a></labe>
 </form>
+</div>
 </div>
 </body>
 </html>
