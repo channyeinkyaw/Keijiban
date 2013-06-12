@@ -167,8 +167,8 @@ this.showPageNav = function(pagerName, positionId) {
         のコメント</label><br><br>
             
             <form method="post" action="dataaccess.php"> 
-                
-                <input type="hidden" name="id" value="<?php echo $_REQUEST['id'] ?>">
+<!--                value="<?php echo $_REQUEST['id'] ?>"-->
+                <input type="hidden" name="id" >
                 
                 コメント書く<br><input type="text" id="comment" name="comment" style="
                 border-width: 2px;border-style:inset;border-color: lightskyblue;
