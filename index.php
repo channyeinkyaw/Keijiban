@@ -218,7 +218,7 @@ this.showPageNav = function(pagerName, positionId) {
               pager.showPage(1);
               </script>
       <div style="border:1px solid yellow;"><br>
-          <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+          <form method="post" action="dataaccess.php">
          
           <label style="margin-left: 1%">掲示板名検索 </label><input type="text" id="search" name="search" style="
             border-width: 2px;border-style:inset;border-color: lightskyblue; 
@@ -229,7 +229,7 @@ this.showPageNav = function(pagerName, positionId) {
         </form>   
             <?php
             if(empty($s_error)){
-                if(isset($getdata) && !isset($nodata)){
+                if(!empty($getdata) && empty($nodata)){
                   $id = $_COOKIE['id'];
                   $title = $_COOKIE['title'];
                   $create_date = $_COOKIE['created_at'];
@@ -265,27 +265,21 @@ this.showPageNav = function(pagerName, positionId) {
             ?>
          
       <?php
-        
           if(isset($_POST['submit'])&& $_POST['submit']=='検索'){
             if($_POST['search']==""){
               echo '<label">検索したい時は　掲示板名 を入力してから 送信 ボタンを押してください。</label>';
             }
             else{ 
-                //access($_POST['user_name']);
-              
                 search($_POST['search']);
-                
-                //    echo $rows;
-               //echo '<script>setTimeout("window.location.replace(\'index.php\')",3000);</script>';
-                // header("Location: index.php");
                  
             }
-          }
+          
 //          else{
 //            echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';    
 //exit;
 //          }
-
+          }
+        
       ?>
           
       </div>

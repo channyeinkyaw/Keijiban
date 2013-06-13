@@ -2,11 +2,7 @@
 
 function search($data){
   //require_once 'stylelayout.css';
-  $comment_button = '<form method="post" action="'.$conn.'" >'.
-		                     '<input type="hidden" value="'.$id.'" name="board_id" />'.
-                              '<input type="hidden" value="'.$title.'" name="board_title" />'.
-		                     '<input type="submit" value="コメント書く" name="submit" />'.
-                             '</form>';
+  $conn='dataaccess.php';
   $hostname = 'localhost';
   $username = 'root';
   $password = '';
@@ -23,6 +19,12 @@ function search($data){
   //$rows = $dbh->query($sql)->fetchAll();
   foreach ($dbh->query($sql) as $row){
     $id=$row['id'];
+    $title=$row['title'];
+    $comment_button = '<form method="post" action="'.$conn.'" >'.
+		                     '<input type="hidden" value="'.$id.'" name="board_id" />'.
+                              '<input type="hidden" value="'.$title.'" name="board_title" />'.
+		                     '<input type="submit" value="コメント書く" name="submit" />'.
+                             '</form>';
     $sQuery = "SELECT id FROM Comment WHERE board_id=$id";
                   $rResult = $dbh->query($sQuery)->fetchAll();
                   $counts=count($rResult);

@@ -32,7 +32,6 @@
 					$now_datetime = date('Y-m-d H:i:s');
                     try {
                             $dbh->exec("INSERT INTO Board (id,title,created_at) VALUES (NULL,'$new_bulletin','$now_datetime')");
-                            //$dbh = null;
                         }
                         catch(PDOException $e)
                         {
@@ -60,7 +59,6 @@
           $created=date('Y-m-d H:i:s');
           if(isset($_REQUEST['submit'])){
                  if($contents==""){
-                   //echo 'Enter Comments';
                    setcookie('c_error','コメント を入力してから コメント送信 ボタンを押してください。');
                    $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/comment.php';
 					header("HTTP/1.1 301 Moved Permanently");
@@ -160,8 +158,6 @@
                           header('Location: '.$url);
                           exit;
                 }
-
-
               }
               catch(PDOException $e)
               {
@@ -170,5 +166,4 @@
           }
         }
      }
-    
 ?>

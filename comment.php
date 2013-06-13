@@ -163,8 +163,7 @@ this.showPageNav = function(pagerName, positionId) {
   <label style="color: blue;font-size: 18px;">掲示板
       <font style="color: red"><?php
         echo $get_title;
-        ?></font>
-        のコメント</label><br><br>
+        ?></font>のコメント</label><br><br>
             
             <form method="post" action="dataaccess.php"> 
 <!--                value="<?php echo $_REQUEST['id'] ?>"-->
@@ -193,8 +192,6 @@ this.showPageNav = function(pagerName, positionId) {
         <?php
           $sql = "SELECT * FROM Comment WHERE board_id=$get_id";
           
-          //$sQuery = "SELECT * FROM Comment WHERE board_id=$get_id";
-          //$rResult = $dbh->query($sQuery)->fetchAll();
           $rResult=$dbh->query($sql)->fetchAll();
 
           if (Count($rResult) > 0) {
