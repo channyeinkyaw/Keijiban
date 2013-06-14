@@ -16,7 +16,6 @@
 	if($login == True){
 		
 		if(isset($_POST['submit']) && $_POST['submit']=='送信'){
-
 			$new_bulletin=$_POST['title'];
 			if(empty($new_bulletin)){
               setcookie('b_error','掲示板名 を入力してから 送信 ボタンを押してください。');
@@ -43,7 +42,6 @@
 					header('Location: '.$url);
 					exit;
 				}
-				
         }
 		elseif(isset($_POST['submit']) && $_POST['submit']=='コメント書く'){
           setcookie('submit_id',$_POST['board_id']);

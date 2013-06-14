@@ -71,24 +71,25 @@ input{
     if($control == True){ echo '入力内容が正しくありません。';}
     if($control2 == True){ echo 'このユーザー名は使用されています。<br>他のユーザー名を指定してください。';}
   ?>
-<form action="logincheck.php" method="post">
-  <table class="myTable">
-    <tr><td>ユーザー名</td>
-        <td><input type="text" name="username" /></td>
-    </tr>
-    <tr><td>パスワード</td>
-        <td><input type="password" name="password" /></td>
-    </tr>
-    <tr><td>パスワード(確認)</td>
-        <td><input type="password" name="conf_password" /></td>
-    </tr>
-  </table>
-	
-   <input type="submit" name="submit" value="送信" 
-          style="background-color: lightskyblue;margin-top: 20px;margin-left: 38.5%;height: 40px;font-size: 18px;"</>
-     <br><br>
-     <labe><a style="color: red"href="login.php">LOG IN</a></labe>
-</form>
+  <form action="logincheck.php" method="post">
+    <table class="myTable">
+      <tr><td>ユーザー名</td>
+          <td><input type="text" name="username" /></td>
+      </tr>
+      <tr><td>パスワード</td>
+          <td><input type="password" name="password" /></td>
+      </tr>
+      <tr><td>パスワード(確認)</td>
+          <td><input type="password" name="conf_password" /></td>
+      </tr>
+    </table>
+
+     <input type="submit" name="submit" value="送信" 
+            style="background-color: lightskyblue;margin-top: 20px;margin-left: 38.5%;height: 40px;font-size: 18px;"</>
+       <br><br>
+       <labe><a style="color: red"href="login.php">LOG IN</a></labe>
+  </form>
+  
 </div>
 </div>
 </body>

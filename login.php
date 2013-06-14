@@ -4,27 +4,27 @@
   $error3 = False;
   
   if(isset($_COOKIE['error1'])){
-		$error1 = True;
-        require_once 'clearcookie.php';
-	}
-	else{
-		$error1 = False;
-	}
-   
-   if(isset($_COOKIE['error2'])){
-		$error2 = True;
-        require_once 'clearcookie.php';
-	}
-	else{
-		$error2 = False;
-	}
+      $error1 = True;
+      require_once 'clearcookie.php';
+  }
+  else{
+      $error1 = False;
+  }
+
+  if(isset($_COOKIE['error2'])){
+      $error2 = True;
+      require_once 'clearcookie.php';
+  }
+  else{
+      $error2 = False;
+  }
   if(isset($_COOKIE['error3'])){
-		$error3 = True;
-        require_once 'clearcookie.php';
-	}
-	else{
-		$error3 = False;
-    }
+      $error3 = True;
+      require_once 'clearcookie.php';
+  }
+  else{
+      $error3 = False;
+  }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
@@ -82,25 +82,23 @@ input{
       if($error3==True){echo '今は ' .$_COOKIE['user_name'].' さんがログインしています。';}
 ?>
 
-<form action="logincheck.php" method="post">
-  <table class="myTable">
-    <tr><td>ユーザー名</td>
-        <td><input type="text" name="user_name" /></td>
-    </tr>
-    <tr><td>パスワード</td>
-        <td><input type="password" name="password" /></td>
-    </tr>
-  </table>
-	
-   <input type="submit" name="submit" value="ログイン" 
-          style="background-color: lightskyblue;margin-top: 20px;margin-left: 30%;height: 40px;font-size: 18px;"</>
-     <br><br>
-         <labe><a style="color: red"href="newacc.php">新規会員登録</a></label>
-</form>
-</div>
-</div>
+    <form action="logincheck.php" method="post">
+      <table class="myTable">
+        <tr><td>ユーザー名</td>
+            <td><input type="text" name="user_name" /></td>
+        </tr>
+        <tr><td>パスワード</td>
+            <td><input type="password" name="password" /></td>
+        </tr>
+      </table>
 
+       <input type="submit" name="submit" value="ログイン" 
+              style="background-color: lightskyblue;margin-top: 20px;margin-left: 30%;height: 40px;font-size: 18px;"</>
+         <br><br>
+             <labe><a style="color: red"href="newacc.php">新規会員登録</a></label>
+    </form>
+
+</div>
+</div>
 </body>
-
-
 </html>

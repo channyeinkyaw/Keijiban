@@ -1,5 +1,4 @@
 <?php
-
 function search($data){
   //require_once 'stylelayout.css';
   $conn='dataaccess.php';
@@ -16,7 +15,6 @@ function search($data){
           <th>修正日</th>
           <th>コメント</th>
         </tr>';
-  //$rows = $dbh->query($sql)->fetchAll();
   foreach ($dbh->query($sql) as $row){
     $id=$row['id'];
     $title=$row['title'];
@@ -29,7 +27,6 @@ function search($data){
                   $rResult = $dbh->query($sQuery)->fetchAll();
                   $counts=count($rResult);
     
-    
     echo '<tr>
             <td>'.$row['id'].'</td>
             <td>'.$row['title'].'</td>
@@ -38,6 +35,5 @@ function search($data){
           </tr>';
     
   }echo '</table>';
-  
 }
 ?>

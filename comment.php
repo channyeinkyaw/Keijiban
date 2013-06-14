@@ -23,7 +23,6 @@
           setcookie('value',$_COOKIE['value'],time()-3600);
           setcookie('eid',$_COOKIE['eid'],time()-3600);
         }
-        
 		$login = True;
 	}
 	else{
@@ -45,8 +44,6 @@
     width:700px;
     background-color: white;
     margin:0 auto;
-/*    background-image: url(images/head-online.jpg);*/
-/*    opacity:0.2;*/
 }  
 
 .myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 700px;margin-top: 10px;}
@@ -74,82 +71,79 @@ padding: 2px 4px 2px 4px;
 
 function Pager(tableName, itemsPerPage) {
 
-this.tableName = tableName;
-this.itemsPerPage = itemsPerPage;
-this.currentPage = 1;
-this.pages = 0;
-this.inited = false;
+    this.tableName = tableName;
+    this.itemsPerPage = itemsPerPage;
+    this.currentPage = 1;
+    this.pages = 0;
+    this.inited = false;
 
-this.showRecords = function(from, to) {
+    this.showRecords = function(from, to) {
+        var rows = document.getElementById(tableName).rows;
+        // i starts from 1 to skip table header row
+        for (var i = 1; i < rows.length; i++) {
+        if (i < from || i > to)
+        rows[i].style.display = 'none';
+        else
+        rows[i].style.display = '';
+        }
 
-    var rows = document.getElementById(tableName).rows;
-    // i starts from 1 to skip table header row
-    for (var i = 1; i < rows.length; i++) {
-    if (i < from || i > to)
-    rows[i].style.display = 'none';
-    else
-    rows[i].style.display = '';
-    }
+    };
 
-};
+    this.showPage = function(pageNumber) {
 
-this.showPage = function(pageNumber) {
+        if (! this.inited) {
+        alert("not inited");
+        return;
+        }
+        var oldPageAnchor = document.getElementById('pg'+this.currentPage);
+        oldPageAnchor.className = 'pg-normal';
+        this.currentPage = pageNumber;
+        var newPageAnchor = document.getElementById('pg'+this.currentPage);
+        newPageAnchor.className = 'pg-selected';
+        var from = (pageNumber - 1) * itemsPerPage + 1;
+        var to = from + itemsPerPage - 1;
+        this.showRecords(from, to);
 
-    if (! this.inited) {
-    alert("not inited");
-    return;
-    }
+    };
 
-    var oldPageAnchor = document.getElementById('pg'+this.currentPage);
-    oldPageAnchor.className = 'pg-normal';
-    this.currentPage = pageNumber;
-    var newPageAnchor = document.getElementById('pg'+this.currentPage);
-    newPageAnchor.className = 'pg-selected';
-    var from = (pageNumber - 1) * itemsPerPage + 1;
-    var to = from + itemsPerPage - 1;
-    this.showRecords(from, to);
+    this.prev = function() {
 
-};
+        if (this.currentPage > 1)
+        this.showPage(this.currentPage - 1);
 
-this.prev = function() {
+    };
 
-    if (this.currentPage > 1)
-    this.showPage(this.currentPage - 1);
+    this.next = function() {
 
-};
+        if (this.currentPage < this.pages) {
+        this.showPage(this.currentPage + 1);
+        }
 
-this.next = function() {
+    };
 
-    if (this.currentPage < this.pages) {
-    this.showPage(this.currentPage + 1);
-    }
+    this.init = function() {
 
-};
+        var rows = document.getElementById(tableName).rows;
+        var records = (rows.length - 1);
+        this.pages = Math.ceil(records / itemsPerPage);
+        this.inited = true;
 
-this.init = function() {
+    };
 
-    var rows = document.getElementById(tableName).rows;
-    var records = (rows.length - 1);
-    this.pages = Math.ceil(records / itemsPerPage);
-    this.inited = true;
+    this.showPageNav = function(pagerName, positionId) {
 
-};
+        if (! this.inited) {
+        alert("not inited");
+        return;
+        }
+        var element = document.getElementById(positionId);
+        var pagerHtml = '<span onclick="' + pagerName + '.prev();" class="pg-normal"> « Prev </span> ';
+        for (var page = 1; page <= this.pages; page++)
+        pagerHtml += '<span id="pg' + page + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
+        pagerHtml += '<span onclick="'+pagerName+'.next();" class="pg-normal"> Next »</span>';
+        element.innerHTML = pagerHtml;
 
-this.showPageNav = function(pagerName, positionId) {
-
-    if (! this.inited) {
-    alert("not inited");
-    return;
-    }
-
-    var element = document.getElementById(positionId);
-    var pagerHtml = '<span onclick="' + pagerName + '.prev();" class="pg-normal"> « Prev </span> ';
-    for (var page = 1; page <= this.pages; page++)
-    pagerHtml += '<span id="pg' + page + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
-    pagerHtml += '<span onclick="'+pagerName+'.next();" class="pg-normal"> Next »</span>';
-    element.innerHTML = pagerHtml;
-
-};
+    };
 
 }
 
@@ -165,24 +159,22 @@ this.showPageNav = function(pagerName, positionId) {
         echo $get_title;
         ?></font>のコメント</label><br><br>
             
-            <form method="post" action="dataaccess.php"> 
+          <form method="post" action="dataaccess.php"> 
 <!--                value="<?php echo $_REQUEST['id'] ?>"-->
-                <input type="hidden" name="id" >
-                
-                コメント書く<br><input type="text" id="comment" name="comment" style="
-                border-width: 2px;border-style:inset;border-color: lightskyblue;
-                width: 400px;height: 50px;"/><br>
-            
-                <input type="submit" name="submit" value="コメント送信" style="font-size: 16px;margin-top: 10px;
-                border-color: lightskyblue;width: 180px;background-color: lightskyblue;"/>
-                
+              <input type="hidden" name="id" >
+
+              コメント書く<br><input type="text" id="comment" name="comment" style="
+              border-width: 2px;border-style:inset;border-color: lightskyblue;
+              width: 400px;height: 50px;"/><br>
+
+              <input type="submit" name="submit" value="コメント送信" style="font-size: 16px;margin-top: 10px;
+              border-color: lightskyblue;width: 180px;background-color: lightskyblue;"/>
           </form>
             
       <?php echo $c_error;?>
             
       <table id="tablepaging"class="myTable">
         <tr>
-
         <th><font face="Arial, Helvetica, sans-serif">コメント</font></th>
         <th><font face="Arial, Helvetica, sans-serif">修正日</font></th>
         <th><font face="Arial, Helvetica, sans-serif">ユーザー名</font></th>
@@ -232,7 +224,7 @@ this.showPageNav = function(pagerName, positionId) {
               }
                 echo '</table>';
               ?>
-                <div id="pageNavPosition" style="padding-top: 20px" align="left"></div>
+              <div id="pageNavPosition" style="padding-top: 20px" align="left"></div>
 
               <script type="text/javascript"><!--
               var pager = new Pager('tablepaging', 2);
@@ -261,10 +253,10 @@ this.showPageNav = function(pagerName, positionId) {
               {
                 echo $e->getMessage();
               }
-          }  else {
-            echo '<br>'.'コメントはありません。';
-          }
-          ?>
+          }   else {
+                echo '<br>'.'コメントはありません。';
+              }
+              ?>
 </div>
 </body>
 </html>

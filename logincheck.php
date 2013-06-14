@@ -22,8 +22,7 @@
                   setcookie('error1',$error_message);
                   $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
                   header('Location: '.$url);
-                  exit;
-							
+                  exit;	
 				}
 			}
 			else{
@@ -32,7 +31,6 @@
               $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
               header('Location: '.$url);
               exit;
-					
 			}
 			mysqli_close($db);
 		}
@@ -71,5 +69,4 @@
       header('Location: '.$url);
       exit;
 	}
-
 ?>
