@@ -1,9 +1,10 @@
 <?php
-  
+  session_start();
   require_once 'pdoconnection.php';
   require_once 'controller.php';
   $getdata='';
   $login = False;
+  $view='hidden';
   
   if(isset($_COOKIE['user_name'])){
         $user_name = $_COOKIE['user_name'];
@@ -16,10 +17,21 @@
         setcookie('nodata',$_COOKIE['nodata'],time()-3600);
         setcookie('b_error',$_COOKIE['b_error'],time()-3600);
         $login = True;
+        
+        if(!empty($getdata)){
+          $view='';
+        }
 	}
 	else{
 		$login = False;
 	}
+    
+    if($login==False){
+      $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
+					header("HTTP/1.1 301 Moved Permanently");
+					header('Location: '.$url);
+					exit;
+    }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
@@ -56,6 +68,66 @@ font-size: 15px;
 background: #000000;
 padding: 2px 4px 2px 4px;
 }
+
+/*navigation css*/
+#demo4 nav {
+      width: 100%;
+      height: 60px;
+      padding: 0px;
+      background: #606060;
+      background: -moz-linear-gradient(-90deg, rgba(0,0,0,0), rgba(0,0,0,0.5)), #606060;
+      background: white;
+      overflow: auto;
+      -moz-border-radius: 0px;
+      -webkit-border-radius: 20px;
+      border-radius: 10px;
+      margin: 0 auto;
+/*      background:url(images/head-online.jpg)*/
+      
+    }
+    #demo4 nav li {
+      float: left;
+      margin: 0px 15px;
+      padding: 0 0;
+      width: 80px;
+      
+      -moz-border-radius: 20px;
+      -webkit-border-radius: 20px;
+      border-radius: 20px;
+      
+      -moz-transition-duration: 0.8s;
+      -webkit-transition-duration: 0.8s;
+      -o-transition-duration: 0.8s;
+    }
+    #demo4 nav li:hover {
+      -moz-box-shadow: 0px 1px 4px black;
+      -webkit-box-shadow: 0px 1px 4px black;
+      box-shadow: 0px 1px 4px black;
+      background: #fff;
+      background: -moz-linear-gradient(-90deg, rgba(0,0,0,0.2), rgba(0,0,0,0)), #fff;
+      background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0))), white;
+    }
+    #demo4 nav li a {
+      -moz-transition-duration: 0.8s;
+      -webkit-transition-duration: 0.8s;
+      -o-transition-duration: 0.8s;
+      
+      display: block;
+      text-align: center;
+      
+      line-height: 1.1em;
+      font-size: 1.2em;
+      font-family: Delicious;
+      font-weight: bold;
+      text-shadow: 0px 0px 3px rgba(0,0,0,1);
+      text-decoration: none;
+      
+      color: blue;
+    }
+    #demo4 nav li:hover a {
+      color: green;
+      text-shadow: 0px 0px 3px rgba(255,255,255,1);
+    }
 </style>
   
 <script type="text/javascript">
@@ -140,26 +212,40 @@ function Pager(tableName, itemsPerPage) {
 
 }
 
+function newdata() {
+document.newform.hidden=false;
+document.searchform.hidden=true;
+
+}
+
+function searchdata() {
+document.searchform.hidden=false;
+document.newform.hidden=true;
+}
 </script>
  
 <body>
+  
 <div class="main">
-      <label style="color: blue;font-size: 18px;">掲示板システム</label>「<a href="logout.php">LOG OUT</a>」<br><br>
-            <?php echo '<font style="color: red">'.strtoupper($user_name).'</font>'.' としてログインしています。'; ?>
-          
-      <form method="post" action="dataaccess.php">
-        <table class="myTable">  
-          <tr><td>
-            掲示板名 <input type="text" id="title" name="title" style="
-            border-width: 2px;border-style:inset;border-color: lightskyblue; 
-            width: 300px;height: 25px;" tabindex=1;/>
-
-            <input type="submit" name="submit" value="送信" style="font-size: 16px;margin-left: 10px;
-            border-color: lightskyblue;width: 164px;background-color: lightskyblue;"/>
-          </td></tr>
-        </table>
-      </form>
+  <img style="width: 100%;"src="images/title.jpg"/>
+<!--      <label style="color: blue;font-size: 30px;" align="center">掲示板システム</label>-->
       
+<!--      「<a href="logout.php">LOG OUT</a>」-->
+      <br><br>
+            <?php// echo '<font style="color: red">'.strtoupper($user_name).'</font>'.' としてログインしています。'; ?>
+          
+      <section id="demo4">
+      <nav>
+        <ul>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="#" onclick="newdata();">Create</a></li>
+          <li><a href="#" onclick="searchdata();">Search</a></li>
+          <li><a href="logout.php">LogOut「<?php echo '<font style="color: red">'.strtoupper($user_name).'</font>'; ?>」</a></li>
+         
+        </ul>
+      </nav>
+    </section>
+          
       <?php echo $error_message;?>
             
       <table id="tablepaging"class="myTable">
@@ -184,7 +270,7 @@ function Pager(tableName, itemsPerPage) {
                   $counts=count($rResult);
         ?>  
                   <tr>
-                  <td><?php echo $id; ?></td>
+                  <td align="right"><?php echo $id; ?></td>
                   <td><?php echo $title; ?></td>
                   <td><?php echo $create_date; ?></td>
                   <td align="center">
@@ -216,25 +302,42 @@ function Pager(tableName, itemsPerPage) {
               pager.showPageNav('pager', 'pageNavPosition');
               pager.showPage(1);
               </script>
-      <div style="border:1px solid yellow;"><br>
-          <form method="post" action="dataaccess.php">
-         
-          <label style="margin-left: 1%">掲示板名検索 </label><input type="text" id="search" name="search" style="
-            border-width: 2px;border-style:inset;border-color: lightskyblue; 
-            width: 300px;height: 25px;" tabindex=1;/>
+<!--      <div style="border:1px solid yellow;" ><br>-->
+          <form method="post" action="dataaccess.php" name="newform" hidden>
+            <table class="myTable">  
+              <tr><td>
+                掲示板名 <input type="text" id="title" name="title" style="
+                border-width: 2px;border-style:inset;border-color: lightskyblue; 
+                width: 300px;height: 25px;" tabindex=1;/>
 
-            <input type="submit" name="submit" value="検索" style="font-size: 16px;margin-left: 10px;
-            border-color: lightskyblue;width: 164px;background-color: lightskyblue;"/>
+                <input type="submit" name="submit" value="送信" style="font-size: 16px;margin-left: 10px;
+                border-color: lightskyblue;width: 164px;background-color: lightskyblue;"/>
+              </td></tr>
+            </table>
+            
+          </form>
+
+          <form method="post" action="dataaccess.php" name="searchform" hidden>
+            <table class="myTable">  
+            <tr><td>
+              <label style="margin-left: 0%">掲示板名検索 </label><input type="text" id="search" name="search" style="
+              border-width: 2px;border-style:inset;border-color: lightskyblue; 
+              width: 300px;height: 25px;" tabindex=1;/>
+
+              <input type="submit" name="submit" value="検索" style="font-size: 16px;margin-left: 10px;
+              border-color: lightskyblue;width: 164px;background-color: lightskyblue;"/>
+              </td></tr>
+            </table>
+            <br>
           </form>   
-            <?php
+          
+          <?php
+          
             if(empty($s_error)){
                 if(!empty($getdata) && empty($nodata)){
-                  $id = $_COOKIE['id'];
-                  $title = $_COOKIE['title'];
-                  $create_date = $_COOKIE['created_at'];
-                  $counts=$_COOKIE['count'];
+                  //$getdata='';
                   $conn='dataaccess.php';
-
+                  echo '検索リザルト';
                   echo '<table id="tablepaging"class="myTable">
                   <tr>
                     <th>ID</th>
@@ -242,44 +345,31 @@ function Pager(tableName, itemsPerPage) {
                     <th>修正日</th>
                     <th>コメント</th>
                   </tr>';
+                  for($i = 0 ; $i < count($_SESSION['data1']) ; $i++){
                   echo '<tr>
-                        <td>'.$id.'</td>
-                        <td>'.$title.'</td>
-                        <td>'.$create_date.'</td>
-                        <td align="center">'.$counts.' 個ある';
+                        <td align="right">'.$_SESSION['data1'][$i].'</td>
+                        <td>'.$_SESSION['data2'][$i].'</td>
+                        <td>'.$_SESSION['data3'][$i].'</td>
+                        <td align="center">'.$_SESSION['count'][$i].' 個ある';
                           $search_button = '<form method="post" action="'.$conn.'" >'.
-                                            '<input type="hidden" value="'.$id.'" name="board_id" />'.
-                                             '<input type="hidden" value="'.$title.'" name="board_title" />'.
+                                            '<input type="hidden" value="'.$_SESSION['data1'][$i].'" name="board_id" />'.
+                                             '<input type="hidden" value="'.$_SESSION['data2'][$i].'" name="board_title" />'.
                                             '<input type="submit" value="コメント書く" name="submit" />'.
                                             '</form>';echo '<br>'.$search_button;
                   echo '</td></tr>';
+                  }
                 }
                 else{
                   echo '<label style="margin-left: 1%">'.$nodata.'</label>';
                 }
-            }
-            else{
-              echo '<label style="margin-left: 1%">'.$s_error.'</label>';
-            }
+              }
+              else{
+                echo '<label style="margin-left: 1%">'.$s_error.'</label>';
+              }
+          
             ?>
          
-      <?php
-          if(isset($_POST['submit'])&& $_POST['submit']=='検索'){
-            if($_POST['search']==""){
-              echo '<label">検索したい時は　掲示板名 を入力してから 送信 ボタンを押してください。</label>';
-            }
-            else{ 
-                search($_POST['search']);
-                 
-            }
-          
-//          else{
-//            echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';    
-//exit;
-//          }
-          }
-      ?> 
-      </div>
+<!--      </div>-->
 </div>
 </body>
 </html>

@@ -28,6 +28,12 @@
 	else{
 		$login = False;
 	} 
+    if($login==False){
+      $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
+					header("HTTP/1.1 301 Moved Permanently");
+					header('Location: '.$url);
+					exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -151,13 +157,13 @@ function Pager(tableName, itemsPerPage) {
 
 <body>
 <div class="main">
-  
-  <label style="color: blue;font-size: 18px;">掲示板システム</label>
+  <img style="width: 100%;"src="images/title.jpg"/>
+<!--  <label style="color: blue;font-size: 18px;">掲示板システム</label>-->
   「<a href="index.php">HOME</a>」「<a href="logout.php">LOG OUT</a>」<br><br>
   <label style="color: blue;font-size: 18px;">掲示板
       <font style="color: red"><?php
         echo $get_title;
-        ?></font>のコメント</label><br><br>
+        ?></font> のコメント</label><br><br>
             
           <form method="post" action="dataaccess.php"> 
 <!--                value="<?php echo $_REQUEST['id'] ?>"-->

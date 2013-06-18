@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once 'pdoconnection.php';
 
 	$user_name = '';
@@ -122,6 +123,12 @@
         }
         elseif (isset ($_POST['submit']) && $_POST['submit']=='検索') {
           $search=$_POST['search'];
+          $qdata1=array();
+          $qdata2=array();
+          $qdata3=array();
+          $qdcount=array();
+          $i=0;
+          
           if(empty($search)){
             setcookie('s_error','検索したい時は　掲示板名 を入力してから 送信 ボタンを押してください。');
               
@@ -131,24 +138,31 @@
 					exit;
           }else{
             try {
-                $sql = "SELECT * FROM Board WHERE title='$search'";
+                $sql = "SELECT * FROM Board WHERE title LIKE '$search%' ORDER BY id ASC";
                 $sResult = $dbh->query($sql)->fetchAll();
                 if(count($sResult)>0){
                   foreach ($dbh->query($sql) as $row){
                     setcookie('status','found');
-                    setcookie('id',$row['id']);
-                    setcookie('title',$row['title']);
-                    setcookie('created_at',$row['created_at']);
+                    $qdata1[$i]=$row['id'];
+                    $qdata2[$i]=$row['title'];
+                    $qdata3[$i]=$row['created_at'];
+                    
                     $id=$row['id'];
 
                     $sQuery = "SELECT id FROM Comment WHERE board_id=$id";
                     $rResult = $dbh->query($sQuery)->fetchAll();
-                    setcookie('count',count($rResult));
-                    $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/index.php';
+                    $qdcount[$i]=count($rResult);
+                    $i++;
+                    
+                  }
+                 $_SESSION['data1']=$qdata1;
+                  $_SESSION['data2']=$qdata2;
+                  $_SESSION['data3']=$qdata3;
+                  $_SESSION['count']=$qdcount;
+                  $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/index.php';
                           header("HTTP/1.1 301 Moved Permanently");
                           header('Location: '.$url);
                           exit;
-                  }
                 }else{
                   setcookie('nodata','データを見つけません!');
                   $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/index.php';
@@ -162,6 +176,14 @@
                 echo $e->getMessage();
               }
           }
+           
         }
      }
+     
+     if($login==False){
+      $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
+					header("HTTP/1.1 301 Moved Permanently");
+					header('Location: '.$url);
+					exit;
+    }
 ?>
