@@ -1,6 +1,5 @@
 <?php
 function search($data){
-  //require_once 'stylelayout.css';
   $conn='dataaccess.php';
   $hostname = 'localhost';
   $username = 'root';

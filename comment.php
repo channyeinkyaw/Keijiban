@@ -11,17 +11,10 @@
 		$user_name = $_COOKIE['user_name'];
         $get_title = $_COOKIE['submit_title'];
         $get_id = $_COOKIE['submit_id'];
-        $c_error=$_COOKIE['c_error'];
         setcookie('c_error',$_COOKIE['c_error'],time()-3600);
-        if(isset($_COOKIE['show'])){
-          $show=$_COOKIE['show'];
-          $button=$_COOKIE['button'];
-          $value=$_COOKIE['value'];
-          $eid=$_COOKIE['eid'];
-          setcookie('show',$_COOKIE['show'],time()-3600);
-          setcookie('button',$_COOKIE['button'],time()-3600);
-          setcookie('value',$_COOKIE['value'],time()-3600);
-          setcookie('eid',$_COOKIE['eid'],time()-3600);
+        if(isset($_SESSION['show'])){
+            $show = $_SESSION['show'];
+            $button = $_SESSION['button'];
         }
 		$login = True;
 	}
@@ -40,7 +33,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Bulletin Board</title>
+<title>掲示板システム</title>
 </head>
 
 <style type="text/css"> 
@@ -52,7 +45,7 @@
     margin:0 auto;
 }  
 
-.myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 700px;margin-top: 10px;}
+.myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 100%;margin-top: 10px;}
 .myTable th { background-color:lightskyblue;color:black;}
 .myTable td, .myTable th { padding:5px;border:1px solid yellow;width: 300px;}
 
@@ -74,9 +67,7 @@ padding: 2px 4px 2px 4px;
 </style>
   
 <script type="text/javascript">
-
 function Pager(tableName, itemsPerPage) {
-
     this.tableName = tableName;
     this.itemsPerPage = itemsPerPage;
     this.currentPage = 1;
@@ -92,11 +83,9 @@ function Pager(tableName, itemsPerPage) {
         else
         rows[i].style.display = '';
         }
-
     };
 
     this.showPage = function(pageNumber) {
-
         if (! this.inited) {
         alert("not inited");
         return;
@@ -109,35 +98,27 @@ function Pager(tableName, itemsPerPage) {
         var from = (pageNumber - 1) * itemsPerPage + 1;
         var to = from + itemsPerPage - 1;
         this.showRecords(from, to);
-
     };
 
     this.prev = function() {
-
         if (this.currentPage > 1)
         this.showPage(this.currentPage - 1);
-
     };
 
     this.next = function() {
-
         if (this.currentPage < this.pages) {
         this.showPage(this.currentPage + 1);
         }
-
     };
 
     this.init = function() {
-
         var rows = document.getElementById(tableName).rows;
         var records = (rows.length - 1);
         this.pages = Math.ceil(records / itemsPerPage);
         this.inited = true;
-
     };
 
     this.showPageNav = function(pagerName, positionId) {
-
         if (! this.inited) {
         alert("not inited");
         return;
@@ -148,16 +129,14 @@ function Pager(tableName, itemsPerPage) {
         pagerHtml += '<span id="pg' + page + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
         pagerHtml += '<span onclick="'+pagerName+'.next();" class="pg-normal"> Next »</span>';
         element.innerHTML = pagerHtml;
-
     };
 
 }
-
 </script>
 
 <body>
 <div class="main">
-  <img style="width: 100%;"src="images/title.jpg"/>
+  <img style="width: 100%; height: 71px;"src="images/title.jpg"/>
 <!--  <label style="color: blue;font-size: 18px;">掲示板システム</label>-->
   「<a href="index.php">HOME</a>」「<a href="logout.php">LOG OUT</a>」<br><br>
   <label style="color: blue;font-size: 18px;">掲示板
@@ -177,7 +156,7 @@ function Pager(tableName, itemsPerPage) {
               border-color: lightskyblue;width: 180px;background-color: lightskyblue;"/>
           </form>
             
-      <?php echo $c_error;?>
+      <?php echo $_SESSION['comment_error'];?>
             
       <table id="tablepaging"class="myTable">
         <tr>
@@ -244,11 +223,11 @@ function Pager(tableName, itemsPerPage) {
                 <input type="<?php echo $show ?>" id="editlabel" name="editlabel" style="
                           border:0px;width: 400px;" value="コメント編集 "/>
 
-                <input type="hidden" id="editid" name="editid" value="<?php echo $eid?>"/>
+                <input type="hidden" id="editid" name="editid" value="<?php echo $_SESSION['edit_id']?>"/>
                 <br>
                 <input type="<?php echo $show ?>" id="editcomment" name="editcomment" style="
                           border-width: 2px;border-style:inset;border-color: lightskyblue;
-                          width: 400px;height: 50px;" value="<?php echo $value ?>"/>
+                          width: 400px;height: 50px;" value="<?php echo $_SESSION['edit_data'] ?>"/>
 
                 <input type="<?php echo $button ?>" value="コメント編集" name="submit" style="font-size: 16px;margin-top: 0px;
                           margin-left: 30px;border-color: lightskyblue;width: 120px;background-color: lightskyblue;"/>
@@ -262,6 +241,7 @@ function Pager(tableName, itemsPerPage) {
           }   else {
                 echo '<br>'.'コメントはありません。';
               }
+              session_destroy();
               ?>
 </div>
 </body>

@@ -2,25 +2,11 @@
   session_start();
   require_once 'pdoconnection.php';
   require_once 'controller.php';
-  $getdata='';
   $login = False;
-  $view='hidden';
   
   if(isset($_COOKIE['user_name'])){
         $user_name = $_COOKIE['user_name'];
-        $error_message=$_COOKIE['b_error'];
-        $getdata=$_COOKIE['status'];
-        $nodata=$_COOKIE['nodata'];
-        $s_error=$_COOKIE['s_error'];
-        setcookie('status',$_COOKIE['status'],time()-3600);
-        setcookie('s_error',$_COOKIE['s_error'],time()-3600);
-        setcookie('nodata',$_COOKIE['nodata'],time()-3600);
-        setcookie('b_error',$_COOKIE['b_error'],time()-3600);
         $login = True;
-        
-        if(!empty($getdata)){
-          $view='';
-        }
 	}
 	else{
 		$login = False;
@@ -35,7 +21,6 @@
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>掲示板システム</title>
@@ -45,12 +30,12 @@
 .main{
 	margin-right:auto;
     margin-left:auto;
-    width:600px;
+    width:700px;
     background-color: white;
     margin:0 auto;
 }
 
-.myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 600px;margin-top: 10px;}
+.myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 100%;margin-top: 10px;}
 .myTable th { background-color:lightskyblue;color:black;}
 .myTable td, .myTable th { padding:5px;border:1px solid yellow;width: 300px;}
 
@@ -87,7 +72,7 @@ padding: 2px 4px 2px 4px;
     }
     #demo4 nav li {
       float: left;
-      margin: 0px 15px;
+      margin: 0px 25px;
       padding: 0 0;
       width: 80px;
       
@@ -131,9 +116,7 @@ padding: 2px 4px 2px 4px;
 </style>
   
 <script type="text/javascript">
-
 function Pager(tableName, itemsPerPage) {
-
     this.tableName = tableName;
     this.itemsPerPage = itemsPerPage;
     this.currentPage = 1;
@@ -141,7 +124,6 @@ function Pager(tableName, itemsPerPage) {
     this.inited = false;
 
     this.showRecords = function(from, to) {
-
         var rows = document.getElementById(tableName).rows;
         // i starts from 1 to skip table header row
         for (var i = 1; i < rows.length; i++) {
@@ -150,11 +132,9 @@ function Pager(tableName, itemsPerPage) {
         else
         rows[i].style.display = '';
         }
-
     };
 
     this.showPage = function(pageNumber) {
-
         if (! this.inited) {
         alert("not inited");
         return;
@@ -167,35 +147,27 @@ function Pager(tableName, itemsPerPage) {
         var from = (pageNumber - 1) * itemsPerPage + 1;
         var to = from + itemsPerPage - 1;
         this.showRecords(from, to);
-
     };
 
     this.prev = function() {
-
         if (this.currentPage > 1)
         this.showPage(this.currentPage - 1);
-
     };
 
     this.next = function() {
-
         if (this.currentPage < this.pages) {
         this.showPage(this.currentPage + 1);
         }
-
     };
 
     this.init = function() {
-
         var rows = document.getElementById(tableName).rows;
         var records = (rows.length - 1);
         this.pages = Math.ceil(records / itemsPerPage);
         this.inited = true;
-
     };
 
     this.showPageNav = function(pagerName, positionId) {
-
         if (! this.inited) {
         alert("not inited");
         return;
@@ -207,9 +179,7 @@ function Pager(tableName, itemsPerPage) {
         pagerHtml += '<span id="pg' + page + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
         pagerHtml += '<span onclick="'+pagerName+'.next();" class="pg-normal"> Next »</span>';
         element.innerHTML = pagerHtml;
-
     };
-
 }
 
 function newdata() {
@@ -227,7 +197,7 @@ document.newform.hidden=true;
 <body>
   
 <div class="main">
-  <img style="width: 100%;"src="images/title.jpg"/>
+  <img style="width: 100%;height: 10%;"src="images/title.jpg"/>
 <!--      <label style="color: blue;font-size: 30px;" align="center">掲示板システム</label>-->
       
 <!--      「<a href="logout.php">LOG OUT</a>」-->
@@ -240,13 +210,12 @@ document.newform.hidden=true;
           <li><a href="index.php">Home</a></li>
           <li><a href="#" onclick="newdata();">Create</a></li>
           <li><a href="#" onclick="searchdata();">Search</a></li>
-          <li><a href="logout.php">LogOut「<?php echo '<font style="color: red">'.strtoupper($user_name).'</font>'; ?>」</a></li>
-         
+          <li><a href="logout.php">LogOut「<?php echo '<font style="color: red">'.strtoupper($user_name).'</font>'; ?>」</a></li> 
         </ul>
       </nav>
-    </section>
+      </section>
           
-      <?php echo $error_message;?>
+   
             
       <table id="tablepaging"class="myTable">
         <tr>
@@ -260,7 +229,6 @@ document.newform.hidden=true;
             $sql = "SELECT * FROM Board ORDER BY id DESC";
             try {        
               foreach ($dbh->query($sql) as $row){
-
                   $id = $row['id'];
                   $title = $row['title'];
                   $create_date = $row['created_at'];
@@ -302,6 +270,14 @@ document.newform.hidden=true;
               pager.showPageNav('pager', 'pageNavPosition');
               pager.showPage(1);
               </script>
+        
+        <?php 
+          if(isset($_SESSION['new_board'])){
+            echo "<SCRIPT LANGUAGE='javascript'>newdata()</SCRIPT>";
+            echo $_SESSION['new_board'];
+          }
+          
+        ?>
 <!--      <div style="border:1px solid yellow;" ><br>-->
           <form method="post" action="dataaccess.php" name="newform" hidden>
             <table class="myTable">  
@@ -332,9 +308,8 @@ document.newform.hidden=true;
           </form>   
           
           <?php
-          
-            if(empty($s_error)){
-                if(!empty($getdata) && empty($nodata)){
+            if(empty($_SESSION['search_error'])){
+                if(!empty($_SESSION['search_get']) && empty($_SESSION['nodata'])){
                   //$getdata='';
                   $conn='dataaccess.php';
                   echo '検索リザルト';
@@ -351,24 +326,23 @@ document.newform.hidden=true;
                         <td>'.$_SESSION['data2'][$i].'</td>
                         <td>'.$_SESSION['data3'][$i].'</td>
                         <td align="center">'.$_SESSION['count'][$i].' 個ある';
-                          $search_button = '<form method="post" action="'.$conn.'" >'.
+                          $comment_button = '<form method="post" action="'.$conn.'" >'.
                                             '<input type="hidden" value="'.$_SESSION['data1'][$i].'" name="board_id" />'.
                                              '<input type="hidden" value="'.$_SESSION['data2'][$i].'" name="board_title" />'.
                                             '<input type="submit" value="コメント書く" name="submit" />'.
-                                            '</form>';echo '<br>'.$search_button;
+                                            '</form>';echo '<br>'.$comment_button;
                   echo '</td></tr>';
                   }
                 }
                 else{
-                  echo '<label style="margin-left: 1%">'.$nodata.'</label>';
+                  echo '<label style="margin-left: 1%">'.$_SESSION['nodata'].'</label>';
                 }
               }
               else{
-                echo '<label style="margin-left: 1%">'.$s_error.'</label>';
+                echo '<label style="margin-left: 1%">'.$_SESSION['search_error'].'</label>';
               }
-          
+              session_destroy();
             ?>
-         
 <!--      </div>-->
 </div>
 </body>

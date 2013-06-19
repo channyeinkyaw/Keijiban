@@ -1,5 +1,5 @@
 <?php
-	$error_message = "";
+    session_start();
     require_once('dbsettings.php');
    	
 	if(!isset($_COOKIE['user_name'])){
@@ -18,16 +18,14 @@
 					exit;
 				}
 				else{
-                  $error_message = "error1";
-                  setcookie('error1',$error_message);
+                  $_SESSION['error2'] = 'error';
                   $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
                   header('Location: '.$url);
                   exit;	
 				}
 			}
 			else{
-              $error_message = "error2";
-              setcookie('error2',$error_message);
+              $_SESSION['error1'] = 'error';
               $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
               header('Location: '.$url);
               exit;
@@ -47,24 +45,23 @@
               mysqli_query($db,$edit);
               mysqli_close($db);
               $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
-                      header('Location: '.$url);
+              header('Location: '.$url);
             }else{
-              setcookie('errordata2','ERROR');
+              $_SESSION['reg_error2'] = 'Error';
               $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/newacc.php';
-                      header('Location: '.$url);
-              //header("location: newacc.php");					
+              header('Location: '.$url);
+              header("location: newacc.php");					
 			}
           }
           else{
-            setcookie('errordata','ERROR');
+            $_SESSION['reg_error1'] = 'Error';
             $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/newacc.php';
-                      header('Location: '.$url);
+            header('Location: '.$url);
             header("location: newacc.php");
           }
         }
 	}else{
-      $error_message = "error3";
-      setcookie('error3',$error_message);
+      $_SESSION['error3'] = 'error3';
       $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
       header('Location: '.$url);
       exit;

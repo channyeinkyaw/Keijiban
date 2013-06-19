@@ -1,27 +1,11 @@
 <?php
-    $control = False;
-    $control2 = False;
-	if (isset($_COOKIE['errordata'])){
-        $control= True;
-        setcookie('errordata',$_COOKIE['errordata'],time()-3600);
-	}else{
-		$control= False;
-        setcookie('errordata',$_COOKIE['errordata'],time()-3600);
-	}
-    
-    if (isset($_COOKIE['errordata2'])){
-        $control2= True;
-        setcookie('errordata2',$_COOKIE['errordata2'],time()-3600);
-	}else{
-		$control2= False;
-        setcookie('errordata2',$_COOKIE['errordata2'],time()-3600);
-	}
+    session_start();
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Bulletin Board</title>
+<title>掲示板システム</title>
 <link rel="stylesheet" type="text/css" href="loginstyle.css" />
 </head>
 
@@ -68,8 +52,9 @@ input{
 <div id="login">
   <h2 style="color: blue;margin-left: 7%;">掲示板システム　新規会員登録</h2>
   <?php
-    if($control == True){ echo '入力内容が正しくありません。';}
-    if($control2 == True){ echo 'このユーザー名は使用されています。<br>他のユーザー名を指定してください。';}
+    if(isset($_SESSION['reg_error1'])){ echo '入力内容が正しくありません。';}
+    if(isset($_SESSION['reg_error2'])){ echo 'このユーザー名は使用されています。<br>他のユーザー名を指定してください。';}
+    session_destroy();
   ?>
   <form action="logincheck.php" method="post">
     <table class="myTable">

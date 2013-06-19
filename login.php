@@ -1,30 +1,5 @@
 <?php
-  $error1 = False;
-  $error2 = False;
-  $error3 = False;
-  
-  if(isset($_COOKIE['error1'])){
-      $error1 = True;
-      require_once 'clearcookie.php';
-  }
-  else{
-      $error1 = False;
-  }
-
-  if(isset($_COOKIE['error2'])){
-      $error2 = True;
-      require_once 'clearcookie.php';
-  }
-  else{
-      $error2 = False;
-  }
-  if(isset($_COOKIE['error3'])){
-      $error3 = True;
-      require_once 'clearcookie.php';
-  }
-  else{
-      $error3 = False;
-  }
+  session_start();
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
@@ -77,9 +52,11 @@ input{
 <div id="login">
 <h2 style="color: blue;margin-left: 8%;">掲示板システム ログイン</h2>
 
-<?php if($error1==True){echo 'ユーザーID、または、パスワードが間違っています。';}
-      if($error2==True){echo 'ユーザーIDとパスワードが入力されていません。';}
-      if($error3==True){echo '今は ' .$_COOKIE['user_name'].' さんがログインしています。';}
+<?php
+      if(isset($_SESSION['error2'])){echo 'ユーザーID、または、パスワードが間違っています。';}
+      if(isset($_SESSION['error1'])){echo 'ユーザーIDとパスワードが入力されていません。';}
+      if(isset($_SESSION['error3'])){echo '今は ' .$_COOKIE['user_name'].' さんがログインしています。';}
+      session_destroy();
 ?>
 
     <form action="logincheck.php" method="post">
