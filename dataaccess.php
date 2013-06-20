@@ -1,7 +1,6 @@
 <?php
     session_start();
     require_once 'pdoconnection.php';
-
 	$user_name = '';
 	$login = False;
 	
@@ -19,7 +18,6 @@
 		if(isset($_POST['submit']) && $_POST['submit']=='送信'){
 			$new_bulletin=$_POST['title'];
 			if(empty($new_bulletin)){
-//              setcookie('b_error','掲示板名 を入力してから 送信 ボタンを押してください。');
               $_SESSION['new_board'] = '掲示板名 を入力してから 送信 ボタンを押してください。';
               
               $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/index.php';
@@ -79,7 +77,6 @@
                    }
                  }
           }
-        
         }
         elseif (isset ($_POST['submit']) && $_POST['submit']=='削除') {
           $com_deleteid=$_POST['delete_id'];
@@ -140,7 +137,6 @@
                   $sResult = $dbh->query($sql)->fetchAll();
                   if(count($sResult)>0){
                     foreach ($dbh->query($sql) as $row){
-//                      setcookie('status','found');
                       $_SESSION['search_get'] = 'found';
                       $qdata1[$i]=$row['id'];
                       $qdata2[$i]=$row['title'];
@@ -174,8 +170,7 @@
                 {
                   echo $e->getMessage();
                 }
-            }
-           
+            } 
         }
      }
      

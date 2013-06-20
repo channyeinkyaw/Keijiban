@@ -5,19 +5,19 @@
   $login = False;
   
   if(isset($_COOKIE['user_name'])){
-        $user_name = $_COOKIE['user_name'];
-        $login = True;
-	}
-	else{
-		$login = False;
-	}
+      $user_name = $_COOKIE['user_name'];
+      $login = True;
+  }
+  else{
+      $login = False;
+  }
     
-    if($login==False){
+  if($login==False){
       $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
-					header("HTTP/1.1 301 Moved Permanently");
-					header('Location: '.$url);
-					exit;
-    }
+      header("HTTP/1.1 301 Moved Permanently");
+      header('Location: '.$url);
+      exit;
+  }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
@@ -28,11 +28,11 @@
   
 <style type="text/css">
 .main{
-	margin-right:auto;
-    margin-left:auto;
-    width:700px;
-    background-color: white;
-    margin:0 auto;
+margin-right:auto;
+margin-left:auto;
+width:700px;
+background-color: white;
+margin:0 auto;
 }
 
 .myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 100%;margin-top: 10px;}
@@ -56,63 +56,63 @@ padding: 2px 4px 2px 4px;
 
 /*navigation css*/
 #demo4 nav {
-      width: 100%;
-      height: 60px;
-      padding: 0px;
-      background: #606060;
-      background: -moz-linear-gradient(-90deg, rgba(0,0,0,0), rgba(0,0,0,0.5)), #606060;
-      background: white;
-      overflow: auto;
-      -moz-border-radius: 0px;
-      -webkit-border-radius: 20px;
-      border-radius: 10px;
-      margin: 0 auto;
+width: 100%;
+height: 60px;
+padding: 0px;
+background: #606060;
+background: -moz-linear-gradient(-90deg, rgba(0,0,0,0), rgba(0,0,0,0.5)), #606060;
+background: white;
+overflow: auto;
+-moz-border-radius: 0px;
+-webkit-border-radius: 20px;
+border-radius: 10px;
+margin: 0 auto;
+margin-top: 7px;
 /*      background:url(images/head-online.jpg)*/
-      
-    }
-    #demo4 nav li {
-      float: left;
-      margin: 0px 25px;
-      padding: 0 0;
-      width: 80px;
-      
-      -moz-border-radius: 20px;
-      -webkit-border-radius: 20px;
-      border-radius: 20px;
-      
-      -moz-transition-duration: 0.8s;
-      -webkit-transition-duration: 0.8s;
-      -o-transition-duration: 0.8s;
-    }
-    #demo4 nav li:hover {
-      -moz-box-shadow: 0px 1px 4px black;
-      -webkit-box-shadow: 0px 1px 4px black;
-      box-shadow: 0px 1px 4px black;
-      background: #fff;
-      background: -moz-linear-gradient(-90deg, rgba(0,0,0,0.2), rgba(0,0,0,0)), #fff;
-      background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0))), white;
-    }
-    #demo4 nav li a {
-      -moz-transition-duration: 0.8s;
-      -webkit-transition-duration: 0.8s;
-      -o-transition-duration: 0.8s;
-      
-      display: block;
-      text-align: center;
-      
-      line-height: 1.1em;
-      font-size: 1.2em;
-      font-family: Delicious;
-      font-weight: bold;
-      text-shadow: 0px 0px 3px rgba(0,0,0,1);
-      text-decoration: none;
-      
-      color: blue;
-    }
-    #demo4 nav li:hover a {
-      color: green;
-      text-shadow: 0px 0px 3px rgba(255,255,255,1);
-    }
+}
+
+#demo4 nav li {
+float: left;
+margin: 0px 25px;
+padding: 0 0;
+width: 80px;
+
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+
+-moz-transition-duration: 0.8s;
+-webkit-transition-duration: 0.8s;
+-o-transition-duration: 0.8s;
+}
+#demo4 nav li:hover {
+-moz-box-shadow: 0px 1px 4px black;
+-webkit-box-shadow: 0px 1px 4px black;
+box-shadow: 0px 1px 4px black;
+background: #fff;
+background: -moz-linear-gradient(-90deg, rgba(0,0,0,0.2), rgba(0,0,0,0)), #fff;
+background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0))), white;
+}
+#demo4 nav li a {
+-moz-transition-duration: 0.8s;
+-webkit-transition-duration: 0.8s;
+-o-transition-duration: 0.8s;
+
+display: block;
+text-align: center;
+line-height: 1.1em;
+font-size: 1.2em;
+font-family: Delicious;
+font-weight: bold;
+text-shadow: 0px 0px 3px rgba(0,0,0,1);
+text-decoration: none;
+color: blue;
+}
+
+#demo4 nav li:hover a {
+color: green;
+text-shadow: 0px 0px 3px rgba(255,255,255,1);
+}
 </style>
   
 <script type="text/javascript">
@@ -201,7 +201,7 @@ document.newform.hidden=true;
 <!--      <label style="color: blue;font-size: 30px;" align="center">掲示板システム</label>-->
       
 <!--      「<a href="logout.php">LOG OUT</a>」-->
-      <br><br>
+      
             <?php// echo '<font style="color: red">'.strtoupper($user_name).'</font>'.' としてログインしています。'; ?>
           
       <section id="demo4">

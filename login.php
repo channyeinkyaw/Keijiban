@@ -11,38 +11,42 @@
   
 <style type="text/css">
 .main{
-	margin-right:auto;
-    margin-left:auto;
-    width:470px;
-    background-color: white;
-    margin:0 auto;
+margin-right:auto;
+margin-left:auto;
+width:470px;
+background-color: white;
+margin:0 auto;
 }
   
 #login{
-	margin: 5px 40px;
-	background:white;
-	border:1px solid lightskyblue;
-	padding-left: 30px;
-	padding-bottom: 20px;
-	width: 360px;
-    font-family:sans-serif;
-    color:blue;
+margin: 5px 40px;
+background:white;
+border:1px solid lightskyblue;
+padding-left: 30px;
+padding-bottom: 20px;
+width: 360px;
+font-family:sans-serif;
+color:blue;
 }
+
 #login p{
-	margin: 5px;
+margin: 5px;
 }
+
 label{
-	padding-left: 5px;
+padding-left: 5px;
 }
+
 input{
-    font-family:sans-serif;
-    font-size: 14px;
-	border:1px solid lightskyblue;
-    background: white;
-    border-width: 2px;
-    border-style:inset;width: 200px;height: 35px;
-    margin-left: 10px;
+font-family:sans-serif;
+font-size: 14px;
+border:1px solid lightskyblue;
+background: white;
+border-width: 2px;
+border-style:inset;width: 200px;height: 35px;
+margin-left: 10px;
 }
+
 .myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 350px;margin-top: 10px;}
 .myTable th { background-color:lightskyblue;color:black;}
 </style> 
@@ -52,12 +56,12 @@ input{
 <div id="login">
 <h2 style="color: blue;margin-left: 8%;">掲示板システム ログイン</h2>
 
-<?php
+     <?php
       if(isset($_SESSION['error2'])){echo 'ユーザーID、または、パスワードが間違っています。';}
       if(isset($_SESSION['error1'])){echo 'ユーザーIDとパスワードが入力されていません。';}
       if(isset($_SESSION['error3'])){echo '今は ' .$_COOKIE['user_name'].' さんがログインしています。';}
       session_destroy();
-?>
+    ?>
 
     <form action="logincheck.php" method="post">
       <table class="myTable">

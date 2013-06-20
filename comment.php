@@ -22,10 +22,10 @@
 		$login = False;
 	} 
     if($login==False){
-      $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
-					header("HTTP/1.1 301 Moved Permanently");
-					header('Location: '.$url);
-					exit;
+        $url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/login.php';
+        header("HTTP/1.1 301 Moved Permanently");
+        header('Location: '.$url);
+        exit;
     }
 ?>
 
@@ -38,11 +38,11 @@
 
 <style type="text/css"> 
 .main{
-	margin-right:auto;
-    margin-left:auto;
-    width:700px;
-    background-color: white;
-    margin:0 auto;
+margin-right:auto;
+margin-left:auto;
+width:700px;
+background-color: white;
+margin:0 auto;
 }  
 
 .myTable { background-color:white;border-collapse:collapse; margin-left: 0px; width: 100%;margin-top: 10px;}
@@ -64,6 +64,65 @@ background: #000000;
 padding: 2px 4px 2px 4px;
 }
 
+/*navigation css*/
+#demo4 nav {
+width: 100%;
+height: 60px;
+padding: 0px;
+background: #606060;
+background: -moz-linear-gradient(-90deg, rgba(0,0,0,0), rgba(0,0,0,0.5)), #606060;
+background: white;
+overflow: auto;
+-moz-border-radius: 0px;
+-webkit-border-radius: 20px;
+border-radius: 10px;
+margin: 0 auto;
+/*      background:url(images/head-online.jpg)*/
+}
+
+#demo4 nav li {
+float: left;
+margin: 0px 25px;
+padding: 0 0;
+width: 80px;
+list-style: none;
+
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+
+-moz-transition-duration: 0.8s;
+-webkit-transition-duration: 0.8s;
+-o-transition-duration: 0.8s;
+}
+#demo4 nav li:hover {
+-moz-box-shadow: 0px 1px 4px black;
+-webkit-box-shadow: 0px 1px 4px black;
+box-shadow: 0px 1px 4px black;
+background: #fff;
+background: -moz-linear-gradient(-90deg, rgba(0,0,0,0.2), rgba(0,0,0,0)), #fff;
+background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0))), white;
+}
+#demo4 nav li a {
+-moz-transition-duration: 0.8s;
+-webkit-transition-duration: 0.8s;
+-o-transition-duration: 0.8s;
+
+display: block;
+text-align: center;
+line-height: 1.1em;
+font-size: 1.2em;
+font-family: Delicious;
+font-weight: bold;
+text-shadow: 0px 0px 3px rgba(0,0,0,1);
+text-decoration: none;
+color: blue;
+}
+
+#demo4 nav li:hover a {
+color: green;
+text-shadow: 0px 0px 3px rgba(255,255,255,1);
+}
 </style>
   
 <script type="text/javascript">
@@ -137,8 +196,20 @@ function Pager(tableName, itemsPerPage) {
 <body>
 <div class="main">
   <img style="width: 100%; height: 71px;"src="images/title.jpg"/>
+  
+      <section id="demo4">
+      <nav>
+        <ul>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="#" onclick="newdata();">Create</a></li>
+          <li><a href="#" onclick="searchdata();">Search</a></li>
+          <li><a href="logout.php">LogOut「<?php echo '<font style="color: red">'.strtoupper($user_name).'</font>'; ?>」</a></li> 
+        </ul>
+      </nav>
+      </section>
 <!--  <label style="color: blue;font-size: 18px;">掲示板システム</label>-->
-  「<a href="index.php">HOME</a>」「<a href="logout.php">LOG OUT</a>」<br><br>
+<!--  「<a href="index.php">HOME</a>」「<a href="logout.php">LOG OUT</a>」<br><br>-->
+
   <label style="color: blue;font-size: 18px;">掲示板
       <font style="color: red"><?php
         echo $get_title;
@@ -168,7 +239,6 @@ function Pager(tableName, itemsPerPage) {
 
         <?php
           $sql = "SELECT * FROM Comment WHERE board_id=$get_id";
-          
           $rResult=$dbh->query($sql)->fetchAll();
 
           if (Count($rResult) > 0) {
@@ -205,10 +275,10 @@ function Pager(tableName, itemsPerPage) {
               ?></td>
                 </tr>
               <?php
-
               }
                 echo '</table>';
               ?>
+        
               <div id="pageNavPosition" style="padding-top: 20px" align="left"></div>
 
               <script type="text/javascript"><!--
@@ -238,11 +308,11 @@ function Pager(tableName, itemsPerPage) {
               {
                 echo $e->getMessage();
               }
-          }   else {
-                echo '<br>'.'コメントはありません。';
-              }
-              session_destroy();
-              ?>
+          }else {
+              echo '<br>'.'コメントはありません。';
+          }
+          session_destroy();
+        ?>
 </div>
 </body>
 </html>

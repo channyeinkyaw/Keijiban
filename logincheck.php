@@ -4,7 +4,6 @@
    	
 	if(!isset($_COOKIE['user_name'])){
 		if(isset($_POST['submit'])&& $_POST['submit']=='ログイン'){
-	
 			$user_name = $_POST['user_name'];
 			$password = sha1($_POST['password']) ;
 			if(!empty($user_name) && !empty($password)){
@@ -32,6 +31,7 @@
 			}
 			mysqli_close($db);
 		}
+        
         if(isset($_POST['submit'])&& $_POST['submit']=='送信'){
           $new_user=$_POST['username'];
           $new_pass=$_POST['password'];
